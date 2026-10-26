@@ -1,0 +1,26 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users",
+  "value": [
+    {
+      "id": "aaaaaaaa-0000-0000-0000-000000000001",
+      "userPrincipalName": "former.employee1@contoso.example",
+      "accountEnabled": false,
+      "assignedLicenses": [{ "skuId": "05e9a617-0261-4cee-bb44-138d3ef5d965", "disabledPlans": [] }]
+    },
+    {
+      "id": "aaaaaaaa-0000-0000-0000-000000000002",
+      "userPrincipalName": "former.employee2@contoso.example",
+      "accountEnabled": false,
+      "assignedLicenses": [
+        { "skuId": "05e9a617-0261-4cee-bb44-138d3ef5d965", "disabledPlans": [] },
+        { "skuId": "b05e124f-c7cc-45a0-a6aa-8cf78c946968", "disabledPlans": [] }
+      ]
+    },
+    {
+      "id": "aaaaaaaa-0000-0000-0000-000000000003",
+      "userPrincipalName": "service.account@contoso.example",
+      "accountEnabled": false,
+      "assignedLicenses": []
+    }
+  ]
+}

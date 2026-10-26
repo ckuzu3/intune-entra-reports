@@ -1,0 +1,27 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#deviceManagement/managedDevices",
+  "value": [
+    {
+      "id": "44444444-4444-4444-4444-444444444444",
+      "deviceName": "WS-0004",
+      "operatingSystem": "Windows",
+      "osVersion": "10.0.22631.4169",
+      "userPrincipalName": "dave@contoso.example",
+      "lastSyncDateTime": "2026-08-15T12:00:00Z",
+      "complianceState": "error",
+      "isEncrypted": true,
+      "managedDeviceOwnerType": "personal"
+    },
+    {
+      "id": "55555555-5555-5555-5555-555555555555",
+      "deviceName": "MAC-0001",
+      "operatingSystem": "macOS",
+      "osVersion": "15.1",
+      "userPrincipalName": "erin@contoso.example",
+      "lastSyncDateTime": "2026-10-18T22:10:00Z",
+      "complianceState": "notApplicable",
+      "isEncrypted": true,
+      "managedDeviceOwnerType": "company"
+    }
+  ]
+}

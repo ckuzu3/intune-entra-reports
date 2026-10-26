@@ -1,0 +1,26 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#subscribedSkus",
+  "value": [
+    {
+      "skuId": "05e9a617-0261-4cee-bb44-138d3ef5d965",
+      "skuPartNumber": "SPE_E3",
+      "capabilityStatus": "Enabled",
+      "consumedUnits": 95,
+      "prepaidUnits": { "enabled": 100, "suspended": 0, "warning": 0 }
+    },
+    {
+      "skuId": "b05e124f-c7cc-45a0-a6aa-8cf78c946968",
+      "skuPartNumber": "EMS",
+      "capabilityStatus": "Enabled",
+      "consumedUnits": 52,
+      "prepaidUnits": { "enabled": 50, "suspended": 0, "warning": 0 }
+    },
+    {
+      "skuId": "eec0eb4f-6444-4f95-aba0-50c24d67f998",
+      "skuPartNumber": "AAD_PREMIUM_P2",
+      "capabilityStatus": "Enabled",
+      "consumedUnits": 0,
+      "prepaidUnits": { "enabled": 10, "suspended": 0, "warning": 0 }
+    }
+  ]
+}
