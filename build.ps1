@@ -187,9 +187,24 @@ function Invoke-TestTask {
         $configuration.CodeCoverage.Path = Join-Path -Path $RepositoryRoot -ChildPath 'src'
         $configuration.CodeCoverage.OutputPath = Join-Path -Path $resultPath -ChildPath 'coverage.xml'
         $configuration.CodeCoverage.CoveragePercentTarget = $CoverageTarget
+        $configuration.Run.PassThru = $true
     }
 
-    Invoke-Pester -Configuration $configuration
+    $result = Invoke-Pester -Configuration $configuration
+
+    if (-not $CollectResults) {
+        return
+    }
+
+    # Pester reports the coverage target but does not fail the run over it, so the
+    # threshold is enforced here. Without this the number in the README would be a
+    # description rather than a promise.
+    $coverage = [math]::Round($result.CodeCoverage.CoveragePercent, 1)
+    Write-Information -MessageData "Code coverage: $coverage percent." -InformationAction Continue
+
+    if ($coverage -lt $CoverageTarget) {
+        throw "Code coverage $coverage percent is below the required $CoverageTarget percent."
+    }
 }
 
 if ($Task -contains 'Format') {
