@@ -49,6 +49,33 @@ Describe 'Get-LicenseUsageReport' {
         ($report | Measure-Object -Property AssignedToDisabledAccounts -Sum).Sum | Should -Be 3
     }
 
+    It 'skips a license assignment that carries no SKU id' {
+        $client = New-FakeGraphClient -ResponseMap @{
+            (Get-GraphRequestUri -Resource SubscribedSkus)            = [pscustomobject]@{
+                value = @(
+                    [pscustomobject]@{
+                        skuId         = '00000000-0000-0000-0000-000000000001'
+                        skuPartNumber = 'SPE_E3'
+                        consumedUnits = 1
+                        prepaidUnits  = [pscustomobject]@{ enabled = 10 }
+                    }
+                )
+            }
+            (Get-GraphRequestUri -Resource DisabledUsersWithLicenses) = [pscustomobject]@{
+                value = @(
+                    [pscustomobject]@{
+                        userPrincipalName = 'broken@contoso.example'
+                        assignedLicenses  = @([pscustomobject]@{ disabledPlans = @() })
+                    }
+                )
+            }
+        }
+
+        $report = Get-LicenseUsageReport -Client $client
+
+        $report.AssignedToDisabledAccounts | Should -Be 0
+    }
+
     It 'sorts the fullest SKU first' {
         $report = Get-LicenseUsageReport -Client $client
 
