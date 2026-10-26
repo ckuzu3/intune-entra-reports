@@ -23,6 +23,9 @@ function New-FakeGraphClient {
 
         Builds a client that answers a single managed-device request from disk.
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions', '',
+        Justification = 'Builds an in-memory object and changes no state.')]
     [CmdletBinding()]
     [OutputType([psobject])]
     param(
