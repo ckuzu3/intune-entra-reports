@@ -1,0 +1,15 @@
+# Test and build output
+testresults/
+*.TestResults.xml
+coverage.xml
+
+# Local credentials and tenant-specific overrides (never commit these)
+*.local.json
+*.local.ps1
+.env
+
+# Editor and OS noise
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
