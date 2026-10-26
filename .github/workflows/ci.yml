@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  # PowerShell 7 on both platforms. The module has no Windows-only dependency, so the
+  # Linux run is a cheap check that nothing crept in.
+  checks:
+    name: Lint and test (pwsh, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Versions are pinned so a new Pester release cannot turn a green build red
+      # without a commit that says so.
+      - name: Install PowerShell modules
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name Pester -RequiredVersion 6.2.0 -Scope CurrentUser -Force -SkipPublisherCheck
+          Install-Module -Name PSScriptAnalyzer -RequiredVersion 1.25.0 -Scope CurrentUser -Force
+
+      - name: Lint
+        run: ./build.ps1 -Task Lint -InformationAction Continue
+
+      - name: Test
+        run: ./build.ps1 -Task Test -CI -InformationAction Continue
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}
+          path: testresults/
+          if-no-files-found: warn
+
+  # The module claims to support Windows PowerShell 5.1, which is still what a managed
+  # Windows client runs out of the box. This job is what backs that claim.
+  windows-powershell-51:
+    name: Lint and test (Windows PowerShell 5.1)
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: powershell
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PowerShell modules
+        run: |
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope CurrentUser | Out-Null
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name Pester -RequiredVersion 6.2.0 -Scope CurrentUser -Force -SkipPublisherCheck
+          Install-Module -Name PSScriptAnalyzer -RequiredVersion 1.25.0 -Scope CurrentUser -Force
+
+      - name: Lint
+        run: ./build.ps1 -Task Lint -InformationAction Continue
+
+      - name: Test
+        run: ./build.ps1 -Task Test -CI -InformationAction Continue
