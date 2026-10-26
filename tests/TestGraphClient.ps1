@@ -13,6 +13,9 @@ function Get-FixturePath {
 }
 
 function New-TestGraphClient {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions', '',
+        Justification = 'Builds an in-memory object and changes no state.')]
     [CmdletBinding()]
     [OutputType([psobject])]
     param()
@@ -22,9 +25,9 @@ function New-TestGraphClient {
     $secondPageUri = $firstPage.'@odata.nextLink'
 
     return New-FakeGraphClient -ResponseMap @{
-        $managedDevicesUri                                            = Get-FixturePath 'managedDevices.page1.json'
-        $secondPageUri                                                = Get-FixturePath 'managedDevices.page2.json'
-        (Get-GraphRequestUri -Resource SubscribedSkus)                = Get-FixturePath 'subscribedSkus.json'
-        (Get-GraphRequestUri -Resource DisabledUsersWithLicenses)     = Get-FixturePath 'disabledUsers.json'
+        $managedDevicesUri                                        = Get-FixturePath 'managedDevices.page1.json'
+        $secondPageUri                                            = Get-FixturePath 'managedDevices.page2.json'
+        (Get-GraphRequestUri -Resource SubscribedSkus)            = Get-FixturePath 'subscribedSkus.json'
+        (Get-GraphRequestUri -Resource DisabledUsersWithLicenses) = Get-FixturePath 'disabledUsers.json'
     }
 }
