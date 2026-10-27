@@ -1,5 +1,7 @@
 # IntuneEntraReports
 
+[![CI](https://github.com/ckuzu3/intune-entra-reports/actions/workflows/ci.yml/badge.svg)](https://github.com/ckuzu3/intune-entra-reports/actions/workflows/ci.yml)
+
 A read-only PowerShell module that turns Microsoft Intune and Entra ID data into three
 reports you can act on: devices that stopped checking in, devices that need attention,
 and licenses that are being paid for but not used.
